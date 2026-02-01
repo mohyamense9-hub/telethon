@@ -1,24 +1,12 @@
-from flask import Flask, request
-from datetime import datetime
+import os
+from flask import Flask
 
 app = Flask(__name__)
 
-messages = []
-
 @app.route("/")
 def home():
-    html = "<h2>Live Codes</h2>"
-    for m in messages[::-1]:
-        html += f"<pre>{m['time']}\n{m['text']}</pre><hr>"
-    return html
+    return "Hello from Selva panel ! 🌐"
 
-@app.route("/push", methods=["POST"])
-def push():
-    text = request.json.get("text")
-    messages.append({
-        "text": text,
-        "time": datetime.now().strftime("%H:%M:%S")
-    })
-    return "OK"
-
-app.run(host="0.0.0.0", port=10000)
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 5000))  # Railway بيحدد PORT
+    app.run(host="0.0.0.0", port=port)
